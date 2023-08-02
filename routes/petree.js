@@ -137,6 +137,27 @@ router.post("/login", [
       res.status(500).json({ error: "Database error" });
     }
   });
+
+  router.get('/trees', async (req, res) => {
+    try {
+      // Fetch all tree data from the 'Tree' table
+      const trees = await knex.select('*').from('Tree');
+      res.json(trees);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+  router.get('/claypots', async (req, res) => {
+    try {
+      // Fetch all claypot data from the 'claypot' table
+      const claypots = await knex.select('*').from('claypot');
+      res.json(claypots);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
   
 
 module.exports = router;

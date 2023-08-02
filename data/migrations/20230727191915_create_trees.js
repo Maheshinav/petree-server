@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
-    return knex.schema.createTable('Tree', function(table) {
+    return knex.schema.createTable('tree', function(table) {
       table.increments('tree_id').primary();
       table.string('tree_name', 100).notNullable();
       table.string('scientific_name', 100).notNullable();
