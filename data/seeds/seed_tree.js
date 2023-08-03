@@ -3,10 +3,10 @@
  * @returns { Promise<void> } 
  */
 exports.seed = async function(knex) {
-  // Deletes ALL existing entries for the "Tree" table
+ 
   await knex('Tree').del();
   
-    // Inserts seed entries for three users
+    
     return knex('Tree').insert([
       {
         tree_id: 1,
