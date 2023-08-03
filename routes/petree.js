@@ -128,7 +128,7 @@ router.post("/login", [
       }
   
       // Create a JWT token
-      const token = jwt.sign({ userId: user.user_id }, "your-secret-key", { expiresIn: "1h" });
+      const token = jwt.sign({ userId: user.user_id, username: user.user_name }, "your-secret-key", { expiresIn: "1h" });
   
       // Send the token back to the client
       res.json({ token });
@@ -148,6 +148,29 @@ router.post("/login", [
       res.status(500).json({ error: 'Internal server error' });
     }
   });
+  // Assuming you have already set up your Express app and imported the necessary modules
+
+// Define a new route to fetch data for a specific tree by ID
+router.get('/trees/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+  
+      // Fetch the tree data from the 'tree' table based on the provided ID
+      const tree = await knex('tree').where('tree_id', id).first();
+  
+      if (!tree) {
+        // If no tree with the provided ID is found, return a 404 status
+        return res.status(404).json({ error: 'Tree not found' });
+      }
+  
+      // If a tree with the provided ID is found, return it in the response
+      res.json(tree);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+  
   router.get('/claypots', async (req, res) => {
     try {
       
@@ -158,6 +181,29 @@ router.post("/login", [
       res.status(500).json({ error: 'Internal server error' });
     }
   });
+  // Assuming you have already defined the 'knex' object and imported 'express' and 'router'
+
+// Define the route for getting a single claypot by ID
+router.get('/claypots/:id', async (req, res) => {
+    const claypotId = req.params.id;
+  
+    try {
+      // Fetch the claypot data with the specified ID from the 'claypot' table
+      const claypot = await knex.select('*').from('claypot').where('claypot_id', claypotId).first();
+  
+      if (!claypot) {
+        // If the claypot with the given ID is not found, return a 404 status code
+        return res.status(404).json({ error: 'Claypot not found' });
+      }
+  
+      // If the claypot is found, return it as JSON response
+      res.json(claypot);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+  
   
 
 module.exports = router;
