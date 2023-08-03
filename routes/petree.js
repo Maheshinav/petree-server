@@ -13,18 +13,18 @@ router.get("/petree", (req, res) => {
     .catch((error) => res.status(500).json({ error: "Database error" }));
 });
 router.get("/petree/:id", (req, res) => {
-    const id = req.params.id; // Get the 'id' parameter from the request
+    const id = req.params.id; 
   
     knex
       .select("*")
       .from("user")
-      .where({ user_id: id }) // Filter the data based on the 'user_id' parameter
+      .where({ user_id: id }) 
       .then((user) => {
         if (user.length === 0) {
-          // If no user found with the specified ID
+         
           return res.status(404).json({ error: "User not found" });
         }
-        res.status(200).json(user[0]); // Return the first (and only) user object
+        res.status(200).json(user[0]); 
       })
       .catch((error) => res.status(500).json({ error: "Database error" }));
   });
@@ -34,26 +34,26 @@ router.post("/petree", [
     body("email").isEmail().withMessage("Invalid email format"),
     body("password").notEmpty().withMessage("Password is required"),
   ], async (req, res) => {
-    // Validate the request body
+    
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
   
-    // Destructure email and password from request body
+    
     const { email, password, first_name, user_name, user_image, user_type } = req.body;
   
     try {
-      // Check if the user with the given email already exists in the database
+      
       const existingUser = await knex("user").where("email", email).first();
       if (existingUser) {
         return res.status(400).json({ error: "User with this email already exists" });
       }
   
-      // Hash the password using bcrypt
+      
       const hashedPassword = await bcrypt.hash(password, 10);
   
-      // Insert the new user data into the database
+      
       await knex("user").insert({
         user_name: user_name,
         user_type: user_type,
@@ -140,7 +140,7 @@ router.post("/login", [
 
   router.get('/trees', async (req, res) => {
     try {
-      // Fetch all tree data from the 'Tree' table
+      
       const trees = await knex.select('*').from('Tree');
       res.json(trees);
     } catch (error) {
@@ -150,7 +150,7 @@ router.post("/login", [
   });
   router.get('/claypots', async (req, res) => {
     try {
-      // Fetch all claypot data from the 'claypot' table
+      
       const claypots = await knex.select('*').from('claypot');
       res.json(claypots);
     } catch (error) {
