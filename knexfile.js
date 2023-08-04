@@ -5,7 +5,7 @@ module.exports = {
   development: {
     client: "mysql2",
     connection: {
-      host: "localhost", // Add the hostname or IP address of your MySQL server here
+      host: "localhost", 
       database: process.env.DB_LOCAL_DBNAME,
       user: process.env.DB_LOCAL_USER,
       password: process.env.DB_LOCAL_PASSWORD,
