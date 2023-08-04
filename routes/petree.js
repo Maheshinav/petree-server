@@ -34,13 +34,13 @@ router.post("/petree", [
     body("email").isEmail().withMessage("Invalid email format"),
     body("password").notEmpty().withMessage("Password is required"),
   ], async (req, res) => {
-    
+   
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
   
-    
+   
     const { email, password, first_name, user_name, user_image, user_type } = req.body;
   
     try {
@@ -63,7 +63,7 @@ router.post("/petree", [
         user_image: user_image,
       });
   
-     
+      
       res.status(201).json({ message: "User registered successfully" });
     } catch (error) {
       console.error(error);
@@ -85,7 +85,7 @@ router.post("/petree", [
       .update(updatedUserData) 
       .then((rowCount) => {
         if (rowCount === 0) {
-        
+          
           return res.status(404).json({ error: "User not found" });
         } else {
           
@@ -99,17 +99,17 @@ router.post("/login", [
     body("email").isEmail().withMessage("Invalid email format"),
     body("password").notEmpty().withMessage("Password is required"),
   ], async (req, res) => {
-   
+    
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
   
-   
+    
     const { email, password } = req.body;
   
     try {
-     
+      
       const user = await knex("user").where("email", email).first();
 
       console.log("User Details:", user);
@@ -122,7 +122,7 @@ router.post("/login", [
       
       const passwordMatch = await bcrypt.compare(password, user.password);
   
-     
+      
       if (!passwordMatch) {
         return res.status(401).json({ error: "Invalid password" });
       }
@@ -140,7 +140,7 @@ router.post("/login", [
 
   router.get('/trees', async (req, res) => {
     try {
-      
+    
       const trees = await knex.select('*').from('Tree');
       res.json(trees);
     } catch (error) {
@@ -148,20 +148,20 @@ router.post("/login", [
       res.status(500).json({ error: 'Internal server error' });
     }
   });
-  
+ 
 router.get('/trees/:id', async (req, res) => {
     try {
       const { id } = req.params;
   
-      
+     
       const tree = await knex('tree').where('tree_id', id).first();
   
       if (!tree) {
-       
+
         return res.status(404).json({ error: 'Tree not found' });
       }
   
-      
+
       res.json(tree);
     } catch (error) {
       console.error(error);
@@ -184,7 +184,7 @@ router.get('/claypots/:id', async (req, res) => {
     const claypotId = req.params.id;
   
     try {
-     
+      
       const claypot = await knex.select('*').from('claypot').where('claypot_id', claypotId).first();
   
       if (!claypot) {
@@ -192,7 +192,7 @@ router.get('/claypots/:id', async (req, res) => {
         return res.status(404).json({ error: 'Claypot not found' });
       }
   
-      
+     
       res.json(claypot);
     } catch (error) {
       console.error(error);
